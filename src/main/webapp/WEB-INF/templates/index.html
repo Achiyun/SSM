@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <!-- 导入bootstrap5的框架样式文件 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bs-icons/bootstrap-icons.css}"/>
+</head>
+<body>
+<div class="container mt-4">
+    <!--登录成功的显示模块-->
+    <div th:if="${session?.user?.account} != null">
+        <span th:text="|欢迎您: ${session.user?.account}|"></span>
+        <a class="btn btn-success" th:href="@{/logout}">退出</a>
+    </div>
+    <!--没有登录时显示的模块-->
+    <div th:if="${session?.user?.account} == null">
+        您还没有登录，请登录
+        <a class="btn btn-primary block" th:href="@{/login.html}">登录</a>
+    </div>
+
+    <br/>
+    <!--跳转到商品列表的按钮  当前这里需要调用后端接口去查询商品数据，然后从后端去调用要显示的页面-->
+    <a class="btn btn-primary block" th:href="@{/dataList.html}">商品管理页</a>
+</div>
+
+</body>
+</html>

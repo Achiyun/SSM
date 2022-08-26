@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>后台管理</title>
+    <link th:href="@{/static/css/login.css}" rel="stylesheet" type="text/css"/>
+
+</head>
+<!--
+	vue指令：
+	赋值文本数据的插值表达式 {{}}
+	v-on: @ 事件名称    -> 事件指令
+    v-text&v-html  用来设置标签内容
+    v-bind    用来设置标签属性的，可以实现表单元素的单向赋值
+    v-model   用来给表单设置双向数据绑定的   单选和多选可以控制默认点击和选择
+    v-if & v-show   用来控制标签的显示和隐藏
+    v-for     实现标签是循环绑定     默认尽量设置一个唯一的key    v-bind:key="唯一值"
+-->
+<body>
+<div class="login_box">
+    <div class="login_l_img"><img src="static/img/login-img.png"/></div>
+    <div class="login">
+        <div class="login_logo"><a href="#"><img src="static/img/logo.png"/></a></div>
+        <div class="login_name">
+            <p>天来商城后台管理系统</p>
+        </div>
+        <form th:action="@{/login}" method="post">
+            <input type="text" name="account" required placeholder="用户名">
+            <input type="password" name="password" required placeholder="密码"/>
+            <div class="checkcode">
+                <input type="text" name="checkCode" required placeholder="验证码"/>
+                <!-- v-bind:属性 可以简写为 :属性 -->
+                <img th:src="@{/captcha}" onclick="changeImg()"/>
+            </div>
+            <input type="checkbox" name="saveMe"/> <label>记住我</label>
+            <input type="submit" value="登 录">
+        </form>
+        <div id="info" th:text="${errinfo}"></div>
+    </div>
+    <div class="copyright">睿峰科技有限公司 版权所有©20219-2030</div>
+</div>
+
+<script src="static/js/jquery-1.12.4.min.js"></script>
+<script>
+    function changeImg() {
+        // 获取img dom
+        $(".checkcode img").attr("src", "captcha?" + Math.random())
+    }
+</script>
+</body>
+</html>
