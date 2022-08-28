@@ -29,10 +29,11 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         // 配置登陆视图的映射
+        // 只需加载页面的时候写在这里
         registry.addViewController("/").setViewName("login");
         registry.addViewController("/login.html").setViewName("login");
         registry.addViewController("/index.html").setViewName("index");
-        registry.addViewController("/dataList.html").setViewName("dataList ");
+//        registry.addViewController("/dataList.html").setViewName("dataList");
     }
 
     /**

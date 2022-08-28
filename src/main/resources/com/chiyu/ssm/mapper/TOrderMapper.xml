@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chiyu.ssm.mapper.TOrderMapper">
+  <resultMap id="BaseResultMap" type="com.chiyu.ssm.entity.TOrder">
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="goodsNum" jdbcType="INTEGER" property="goodsnum" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from t_order
+    where uid = #{uid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chiyu.ssm.entity.TOrder">
+    insert into t_order (uid, gid, goodsNum
+      )
+    values (#{uid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{goodsnum,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.chiyu.ssm.entity.TOrder">
+    update t_order
+    set goodsNum = #{goodsnum,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select uid, gid, goodsNum
+    from t_order
+    where uid = #{uid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select uid, gid, goodsNum
+    from t_order
+  </select>
+</mapper>

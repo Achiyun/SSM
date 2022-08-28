@@ -1,187 +1,229 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-	<head>
-		<!-- 必须的 meta 标签 -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title></title>
-		<!-- 导入bootstrap5的框架样式文件 -->
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="static/bs-icons/bootstrap-icons.css" />
-	</head>
-	<body>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 必须的 meta 标签 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <!-- 导入bootstrap5的框架样式文件 -->
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/bs-icons/bootstrap-icons.css"/>
+</head>
+<body>
 
-		<div id="app" class="container-fluid">
-			<h2 class="text-center my-4">商品信息数据列表</h2>
-			<div class="m-2">
-				<div>
-					<form class="row g-2">
-						<div class="col-auto">
-							<input type="text" placeholder="名称 | 模糊查找" class="form-control" id="gname">
-						</div>
-						<div class="col-auto">
-							<input type="text" placeholder="单价 | 小于等于" class="form-control" id="gprice">
-						</div>
-						<div class="col-auto d-flex align-items-center">
-							<label for="maintainDate" class="w-50" style="text-align: center;">保值日期</label>
-							<input type="date" class="form-control" id="maintainDate">
-						</div>
-						<div class="col-auto">
-							<input type="text" placeholder="分类 | 模糊查询" class="form-control" id="classify">
-						</div>
-						<div class="col-auto">
-							<button type="button" class="btn btn-primary">
-								<i class="bi bi-search"></i>
-								查询
-							</button>
-							<button type="reset" class="btn btn-outline-primary">
-								<i class="bi bi-eraser"></i>
-								清空
-							</button>
-						</div>
-					</form>
-					<div class="my-2">
-						<button class='btn btn-warning'>
-							<i class="bi bi-trash"></i>
-							批量删除
-						</button>
-						<button type="button" class='btn btn-success' data-bs-toggle="modal" data-bs-target="#addModal">
-							<i class="bi bi-plus-lg"></i>
-							添加
-						</button>
-					</div>
-				</div>
-				<table class="table table-bordered table-hover">
-					<thead>
-						<tr class="info">
-							<th><input type="checkbox" /></th>
-							<th>序号</th>
-							<th>商品名称</th>
-							<th>图片</th>
-							<th>单价</th>
-							<th>库存</th>
-							<th>保值日期</th>
-							<th>分类</th>
-							<th>描述</th>
-							<th>操作</th>
-						</tr>
-					</thead>
-					<tbody id="tataBody">
-						<tr>
-							<td><input type="checkbox"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>
-								<button type="button" class="btn btn-primary btn-sm">
-									<i class="bi bi-pencil-fill"></i>
-									修改
-								</button>
-								<button type="button" class="btn btn-danger btn-sm">
-									<i class="bi bi-trash-fill"></i>
-									删除
-								</button>
-							</td>
+<div id="app" class="container-fluid">
+    <h2 class="text-center my-4">商品信息数据列表</h2>
+    <div class="m-2">
+        <div>
+            <form class="row g-2">
+                <div class="col-auto">
+                    <input type="text" name="gname" placeholder="名称 | 模糊查找" class="form-control" id="gname">
+                </div>
+                <div class="col-auto">
+                    <input type="text" name="gprice" placeholder="单价 | 小于等于" class="form-control" id="gprice">
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <label for="maintainDate" class="w-50" style="text-align: center;">保值日期</label>
+                    <input type="date" name="maintainDate" class="form-control" id="maintainDate">
+                </div>
+                <div class="col-auto">
+                    <input type="text" name="classify" placeholder="分类 | 模糊查询" class="form-control" id="classify">
+                </div>
+                <div class="col-auto">
+                    <button type="button" onclick="submitSearch()" class="btn btn-primary">
+                        <i class="bi bi-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="btn btn-outline-primary">
+                        <i class="bi bi-eraser"></i>
+                        清空
+                    </button>
+                </div>
+            </form>
+            <div class="my-2">
+                <button class='btn btn-warning'>
+                    <i class="bi bi-trash"></i>
+                    批量删除
+                </button>
+                <button type="button" class='btn btn-success' data-bs-toggle="modal" data-bs-target="#addModal">
+                    <i class="bi bi-plus-lg"></i>
+                    添加
+                </button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr class="info">
+                <th><input type="checkbox"/></th>
+                <th>序号</th>
+                <th>商品名称</th>
+                <th>图片</th>
+                <th>单价</th>
+                <th>库存</th>
+                <th>保值日期</th>
+                <th>分类</th>
+                <th>描述</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="tataBody">
+            <tr th:each="goods:${pageVo.dataList}">
+                <td><input type="checkbox"></td>
+                <td th:text="${goods.gid}"></td>
+                <td th:text="${goods.gname}"></td>
+                <td>
+                    <img th:src="${goods.gimg}" height="40"/>
+                </td>
+                <td th:text="${goods.gprice}"></td>
+                <td th:text="${goods.gstock}"></td>
+                <td th:text="${goods.maintainDate}"></td>
+                <td th:text="${goods.classify}"></td>
+                <td th:text="${goods.gdescribe}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="bi bi-pencil-fill"></i>
+                        修改
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash-fill"></i>
+                        删除
+                    </button>
+                </td>
 
-						</tr>
-					</tbody>
-				</table>
+            </tr>
+            </tbody>
+        </table>
 
-				<!-- 分页 -->
-				<nav class="row g-2" aria-label="Page navigation example">
-					<ul class="pagination col-auto">
-						<li class="page-item">
-							<a class="page-link" href="#" aria-label="Previous">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#" aria-label="Next">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
-					</ul>
-					<label class="col-auto" style="font-size: 25px;">
-						共5页 48条
-					</label>
-				</nav>
-			</div>
+        <!-- 分页 -->
+        <nav class="row g-2" aria-label="Page navigation example">
+            <ul class="pagination col-auto">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:each="pNum : ${#numbers.sequence(1,pageVo.pages)}" class="page-item">
+                    <span class="page-link" th:onclick="|clickPage(${pNum})|" th:text="${pNum}"></span>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+            <label class="col-auto" style="font-size: 25px;">
+                共[[${pageVo.pages}]]页 48条
+            </label>
+        </nav>
+    </div>
 
-			<!--添加信息的模态窗口
-				手动关闭模态框的代码：
-				var myModalEl = document.getElementById('myModal')
-				bootstrap.Modal.getInstance(myModalEl).hide()
-			-->
-			<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="addModalLabel">添加商品</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body mx-4">
-							<form class="addForm row g-2" id="addForm">
-								<div class="col-auto">
-									<div style="width: 240px;">
-										<input type="text" class="form-control" placeholder="请输入商品名称" required />
-									</div>
-								</div>
-								<div class="col-auto">
-									<label class="control-label">商品图片</label>
-									<div style="width: 240px;">
-										<input type="file" name="gimg" class="form-control" />
-									</div>
-								</div>
-								<div class="col-auto">
-									<div style="width: 240px;">
-										<input type="number" class="form-control" placeholder="商品单价" required />
-									</div>
-								</div>
-								<div class="col-auto">
-									<div style="width: 240px;">
-										<input type="number" class="form-control" placeholder="库存" required />
-									</div>
-								</div>
-								<div class="col-auto">
-									<label class="control-label">保值日期</label>
-									<div style="width: 240px;">
-										<input type="date" class="form-control" required />
-									</div>
-								</div>
-								<div class="col-auto">
-									<div style="width: 240px;">
-										<select class="form-control" name="category">
-											<option value="">----请选择商品分类----</option>
-											<option value="数码电器">数码电器</option>
-											<option value="手机">手机</option>
-											<option value="电脑">电脑</option>
-											<option value="箱包皮具">箱包皮具</option>
-										</select>
-									</div>
-								</div>
-								<div class="">
-									<textarea class="form-control" placeholder="商品描述"></textarea>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">取消</button>
-							<!--因为当前button提交按钮在form标签外部，需要使用form属性对form标签进行关联-->
-							<button type="button" form="addForm" class="btn btn-primary">确认添加</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>
+    <!--添加信息的模态窗口
+        手动关闭模态框的代码：
+        var myModalEl = document.getElementById('myModal')
+        bootstrap.Modal.getInstance(myModalEl).hide()
+    -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">添加商品</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body mx-4">
+                    <form class="addForm row g-2" id="addForm">
+                        <div class="col-auto">
+                            <div style="width: 240px;">
+                                <input type="text" class="form-control" placeholder="请输入商品名称" required/>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <label class="control-label">商品图片</label>
+                            <div style="width: 240px;">
+                                <input type="file" name="gimg" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div style="width: 240px;">
+                                <input type="number" class="form-control" placeholder="商品单价" required/>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div style="width: 240px;">
+                                <input type="number" class="form-control" placeholder="库存" required/>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <label class="control-label">保值日期</label>
+                            <div style="width: 240px;">
+                                <input type="date" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div style="width: 240px;">
+                                <select class="form-control" name="category">
+                                    <option value="">----请选择商品分类----</option>
+                                    <option value="数码电器">数码电器</option>
+                                    <option value="手机">手机</option>
+                                    <option value="电脑">电脑</option>
+                                    <option value="箱包皮具">箱包皮具</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="">
+                            <textarea class="form-control" placeholder="商品描述"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">取消</button>
+                    <!--因为当前button提交按钮在form标签外部，需要使用form属性对form标签进行关联-->
+                    <button type="button" form="addForm" class="btn btn-primary">确认添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
 
-	</body>
+    // 上一页
+    function previous() {
+        // 获取当前页数减1
+        let currentPage = "[[${pageVo.currentPage]]"
+        if (currentPage > 1) {
+            submitSearch(currentPage - 1)
+        }
+    }
+
+    // 下一页
+    function next() {
+
+        // 清空表单
+        function clearData() {
+            location.href = "dataList.html"
+        }
+
+        // 获取当前页数减1
+        let currentPage = "[[${pageVo.currentPage]]"
+        let pages = [[${pageVo.pages}]]
+        if (currentPage < pages) {
+            submitSearch(currentPage + 1)
+        }
+    }
+
+
+    // 查询功能和当前页点击功能
+    function submitSearch(page) {
+        // 获取表单数据, 并且要拼接为key value
+        let formData = $("form").serialize()
+        // 直接调用后端接口发送数据
+        location.href = "dataList.html?" + formData + "&page=" + page;
+    }
+
+    function clickPage() {
+        submitSearch()
+    }
+
+</script>
+</body>
 </html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chiyu.ssm.mapper.TIntegralMapper">
+  <resultMap id="BaseResultMap" type="com.chiyu.ssm.entity.TIntegral">
+    <id column="itId" jdbcType="INTEGER" property="itid" />
+    <result column="usable_integral" jdbcType="INTEGER" property="usableIntegral" />
+    <result column="used_integral" jdbcType="INTEGER" property="usedIntegral" />
+    <result column="total_integral" jdbcType="INTEGER" property="totalIntegral" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_integral
+    where itId = #{itid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chiyu.ssm.entity.TIntegral">
+    insert into t_integral (itId, usable_integral, used_integral, 
+      total_integral)
+    values (#{itid,jdbcType=INTEGER}, #{usableIntegral,jdbcType=INTEGER}, #{usedIntegral,jdbcType=INTEGER}, 
+      #{totalIntegral,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.chiyu.ssm.entity.TIntegral">
+    update t_integral
+    set usable_integral = #{usableIntegral,jdbcType=INTEGER},
+      used_integral = #{usedIntegral,jdbcType=INTEGER},
+      total_integral = #{totalIntegral,jdbcType=INTEGER}
+    where itId = #{itid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select itId, usable_integral, used_integral, total_integral
+    from t_integral
+    where itId = #{itid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select itId, usable_integral, used_integral, total_integral
+    from t_integral
+  </select>
+</mapper>

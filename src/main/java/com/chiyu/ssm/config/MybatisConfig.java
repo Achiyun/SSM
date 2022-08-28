@@ -38,6 +38,9 @@ public class MybatisConfig {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         // 绑定数据库的连接池对象
         factoryBean.setDataSource(dataSource);
+        // 设置别名
+        factoryBean.setTypeAliasesPackage("com.chiyu.ssm.entity");
+        factoryBean.setTypeAliasesPackage("com.chiyu.ssm.vo");
         // 配置插件
         PageInterceptor pageInterceptor = new PageInterceptor();
         factoryBean.setPlugins(pageInterceptor);

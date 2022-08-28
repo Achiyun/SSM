@@ -76,4 +76,14 @@ public class UserController {
         return "redirect:/index.html";
 
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+
+        // 让当前的会话对象直接失效
+        session.invalidate();
+
+        // 重定向到登陆页
+        return "redirect:/login.html";
+    }
 }
