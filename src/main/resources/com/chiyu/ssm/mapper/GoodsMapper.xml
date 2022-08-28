@@ -62,7 +62,7 @@
                 gname like "%${gname}%"
             </if>
             <if test="gprice != null and gprice != ''">
-                AND gprice &lt; = #{gprice}
+                AND gprice &lt;= #{gprice}
             </if>
 
             <if test="maintainDate != null  and  maintainDate != ''">
