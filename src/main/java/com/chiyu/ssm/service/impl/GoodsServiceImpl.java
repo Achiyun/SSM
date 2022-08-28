@@ -42,8 +42,18 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public boolean deleteByPrimaryKey(Integer gid) {
-        return goodsMapper.deleteByPrimaryKey(gid);
+    public boolean deleteByGid(Integer gid) {
+        return goodsMapper.deleteByPrimaryKey(gid) > 0;
+    }
+
+    @Override
+    public boolean insert(Goods goods) {
+        return goodsMapper.insert(goods) > 0;
+    }
+
+    @Override
+    public boolean updateByPrimaryKey(Goods goods) {
+        return goodsMapper.updateByPrimaryKey(goods) > 0;
     }
 
 

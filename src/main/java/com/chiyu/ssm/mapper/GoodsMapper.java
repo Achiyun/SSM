@@ -6,7 +6,7 @@ import com.chiyu.ssm.vo.SearchVo;
 import java.util.List;
 
 public interface GoodsMapper {
-    boolean deleteByPrimaryKey(Integer gid);
+    int deleteByPrimaryKey(Integer gid);
 
     int insert(Goods record);
 
@@ -14,7 +14,7 @@ public interface GoodsMapper {
 
     List<Goods> selectAll();
 
-    int updateByPrimaryKey(Goods record);
+    int updateByPrimaryKey(Goods goods);
 
     List<Goods> selectGoodsByPageByParam(SearchVo searchVo);
 }

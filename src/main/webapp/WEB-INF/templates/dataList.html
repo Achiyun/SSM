@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <!-- 必须的 meta 标签 -->
     <meta charset="utf-8">
@@ -9,16 +10,18 @@
     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="static/bs-icons/bootstrap-icons.css"/>
 </head>
+
 <body>
 
 <div id="app" class="container-fluid">
     <h2 class="text-center my-4">商品信息数据列表</h2>
     <div class="m-2">
         <div>
-            <form th:object="${pageVo.searchVo}" class="row g-2">
+            <form id="searchForm" th:object="${pageVo.searchVo}" class="row g-2">
                 <div class="col-auto">
                     <input type="text" name="gname" th:value="*{gname}" placeholder="名称 | 模糊查找"
-                           class="form-control" id="gname">
+                           class="form-control"
+                           id="gname">
                 </div>
                 <div class="col-auto">
                     <input type="text" name="gprice" th:value="*{gprice}" placeholder="单价 | 小于等于"
@@ -38,7 +41,7 @@
                         <i class="bi bi-search"></i>
                         查询
                     </button>
-                    <button type="reset" class="btn btn-outline-primary">
+                    <button type="reset" onclick="clearData()" class="btn btn-outline-primary">
                         <i class="bi bi-eraser"></i>
                         清空
                     </button>
@@ -49,7 +52,8 @@
                     <i class="bi bi-trash"></i>
                     批量删除
                 </button>
-                <button type="button" class='btn btn-success' data-bs-toggle="modal" data-bs-target="#addModal">
+                <button type="button" class='btn btn-success' data-bs-whatever="添加" data-bs-toggle="modal"
+                        data-bs-target="#addModal">
                     <i class="bi bi-plus-lg"></i>
                     添加
                 </button>
@@ -84,11 +88,12 @@
                 <td th:text="${goods.classify}"></td>
                 <td th:text="${goods.gdescribe}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-whatever="修改" data-bs-toggle="modal"
+                            data-bs-target="#addModal">
                         <i class="bi bi-pencil-fill"></i>
                         修改
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm">
+                    <button type="button" th:onclick="|delGoods(${goods.gid})|" class="btn btn-danger btn-sm">
                         <i class="bi bi-trash-fill"></i>
                         删除
                     </button>
@@ -97,17 +102,23 @@
             </tr>
             </tbody>
         </table>
+
+        <form id="delForm" action="" method="post">
+            <input type="hidden" name="_method" value="DELETE"/>
+        </form>
+
+
         <!-- 分页 -->
         <nav class="row g-2" aria-label="Page navigation example">
             <ul class="pagination col-auto">
                 <li th:class="|page-item ${pageVo.isFirstPage() ? 'disabled':''}|">
-                    <span class="page-link" onclick="previous()" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </span>
+                        <span class="page-link" onclick="previous()" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </span>
                 </li>
                 <li th:each="pNum : ${ #numbers.sequence(1, pageVo.pages) }"
                     th:class="|page-item ${ pageVo.currentPage == pNum ? 'active':'' }|">
-                    <span class="page-link" href="#" th:onclick="|submitSearch(${pNum})|" th:text="${pNum}"></span>
+                    <span class="page-link" th:onclick="|submitSearch(${pNum})|" th:text="${pNum}"></span>
                 </li>
 
                 <li th:class="|page-item ${pageVo.isLastPage() ? 'disabled':''}|">
@@ -123,22 +134,29 @@
     </div>
 
     <!--添加信息的模态窗口
-        手动关闭模态框的代码：
-        var myModalEl = document.getElementById('myModal')
-        bootstrap.Modal.getInstance(myModalEl).hide()
-    -->
+    手动关闭模态框的代码：
+    var myModalEl = document.getElementById('myModal')
+    bootstrap.Modal.getInstance(myModalEl).hide()
+-->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">添加商品</h5>
+                    <h5 class="modal-title" id="addModalLabel">添加</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body mx-4">
-                    <form class="addForm row g-2" id="addForm">
+                    <form th:action="@{/product}" method="post" class="addForm row g-2" id="addForm">
                         <div class="col-auto">
                             <div style="width: 240px;">
-                                <input type="text" class="form-control" placeholder="请输入商品名称" required/>
+                                <input type="text" id="upGidT" name="gid" readonly class="form-control"/>
+
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div style="width: 240px;">
+                                <input type="text" id="upGname" name="gname" class="form-control" placeholder="请输入商品名称"
+                                       required/>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -149,23 +167,24 @@
                         </div>
                         <div class="col-auto">
                             <div style="width: 240px;">
-                                <input type="number" class="form-control" placeholder="商品单价" required/>
+                                <input type="number" id="upGprice" name="gprice" class="form-control" placeholder="商品单价"
+                                       required/>
                             </div>
                         </div>
                         <div class="col-auto">
                             <div style="width: 240px;">
-                                <input type="number" class="form-control" placeholder="库存" required/>
+                                <input type="number" id="upGstock" name="gstock" class="form-control" placeholder="库存" required/>
                             </div>
                         </div>
                         <div class="col-auto">
                             <label class="control-label">保值日期</label>
                             <div style="width: 240px;">
-                                <input type="date" class="form-control" required/>
+                                <input type="date" id="upDate" name="maintaindate" class="form-control" required/>
                             </div>
                         </div>
                         <div class="col-auto">
                             <div style="width: 240px;">
-                                <select class="form-control" name="category">
+                                <select class="form-control" id="upClassify" name="classify">
                                     <option value="">----请选择商品分类----</option>
                                     <option value="数码电器">数码电器</option>
                                     <option value="手机">手机</option>
@@ -175,14 +194,14 @@
                             </div>
                         </div>
                         <div class="">
-                            <textarea class="form-control" placeholder="商品描述"></textarea>
+                            <textarea class="form-control" id="upGdescribe" name="gdescribe" placeholder="商品描述"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">取消</button>
                     <!--因为当前button提交按钮在form标签外部，需要使用form属性对form标签进行关联-->
-                    <button type="button" form="addForm" class="btn btn-primary">确认添加</button>
+                    <button type="submit" form="addForm" class="btn btn-primary">确认</button>
                 </div>
             </div>
         </div>
@@ -192,10 +211,77 @@
 <script src="static/js/jquery-1.12.4.min.js"></script>
 <script th:inline="javascript">
 
+    // 默认执行的功能
+    $(function () {
+        // 获取模态框，官方代码
+        var exampleModal = document.getElementById('addModal')
+        exampleModal.addEventListener('show.bs.modal', function (event) {
+            // 获取按钮对象
+            const button = event.relatedTarget
+            // 获取自定义属性设置的数据（点击按钮绑定的用来区分当前是添加还是修改的标识）
+            const recipient = button.getAttribute('data-bs-whatever')
+            // 直接将获取的标识数据作为模态框标题
+            $('#addModalLabel').text(recipient)
+            // 1. 如果是添加商品，需要移除隐藏域标签和记录gid的只读input标签
+            if (recipient === "添加") {
+                if ($("#hidden").length > 0) {
+                    // 删除隐藏域标签
+                    $("#hidden").remove()
+                }
+                // 移除记录gid的只读标签，因为添加时不需要gid
+                $("#upGidT").remove()
+                // 清空数据
+                $("#upGname").val('')
+                $("#upGprice").val('')
+                $("#upGstock").val('')
+                $("#upDate").val('')
+                $("#upClassify").val('')
+                $("#upGdescribe").val('')
+            }
+            // 2. 如果时修改商品，需要添加记录gid的只读标签和标识restful风格put请求的隐藏域标签
+            if (recipient === "修改") {
+                if ($("#hidden").length === 0) {
+                    // 添加隐藏域标签，有这个标签，再配合后端的隐藏域过滤器，
+                    // 才可以使用restful风格的put和delete请求
+                    $('#addForm').append(`<input id='hidden' type='hidden' name='_method'
+value='PUT'/>`)
+                }
+                if ($('#upGidT').length === 0) {
+                    // 添加gid的只读标签
+                    $('#addForm .gidDiv').append(`<input type='text' class='form-control'
+name='gid' id='upGidT' readonly />`)
+                }
+                // 回显数据
+                let tds = $(button).parent().siblings()
+                $("#upGidT").val(tds.eq(1).text())
+                $("#upGname").val(tds.eq(2).text())
+                $("#upGprice").val(tds.eq(4).text())
+                $("#upGstock").val(tds.eq(5).text())
+                $("#upDate").val(tds.eq(6).text().substring(0, 10))
+                $("#upClassify").val(tds.eq(7).text())
+                $("#upGdescribe").val(tds.eq(8).text())
+            }
+        })
+    })
+
+    // 删除功能
+    function delGoods(gid) {
+        if (confirm("是否确定要删除id为" + gid + "的商品？"))
+            // 获取表单dom元素
+            $("#delForm").attr("action", "product/" + gid);
+        // 提交表单
+        $("#delForm").submit();
+
+    }
+
+    function clearData() {
+        location.href = "dataList.html"
+    }
+
     // 下一页
     function previous() {
         // 获取当前页数减一
-        let currentPage = [[${pageVo.currentPage}]]
+        let currentPage = [[${ pageVo.currentPage }]]
         if (currentPage > 1) {
             submitSearch(currentPage - 1)
         }
@@ -204,8 +290,8 @@
     // 上一页
     function next() {
         // 获取当前页数减一
-        let currentPage = [[${pageVo.currentPage}]]
-        let pages = [[${pageVo.pages}]]
+        let currentPage = [[${ pageVo.currentPage }]]
+        let pages = [[${ pageVo.pages }]]
         if (currentPage < pages) {
             submitSearch(currentPage + 1)
         }
@@ -214,11 +300,12 @@
     // 查询功能
     function submitSearch(page) {
         // 获取表单数据， 并且拼接为
-        let formData = $("form").serialize();
+        let formData = $("#searchForm").serialize();
         // 直接调用后端接口， 发送数据
         location.href = "dataList.html?" + formData + "&page=" + page;
 
     }
 </script>
 </body>
+
 </html>

@@ -26,13 +26,15 @@
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.chiyu.ssm.entity.Goods">
         update goods
-        set gname        = #{gname,jdbcType=VARCHAR},
-            gimg         = #{gimg,jdbcType=VARCHAR},
-            gprice       = #{gprice,jdbcType=DECIMAL},
-            gstock       = #{gstock,jdbcType=INTEGER},
-            maintainDate = #{maintaindate,jdbcType=TIMESTAMP},
-            classify     = #{classify,jdbcType=VARCHAR},
-            gdescribe    = #{gdescribe,jdbcType=LONGVARCHAR}
+        set gname = #{gname,jdbcType=VARCHAR},
+        <if test="gimg != null and gimg !='' ">
+            gimg = #{gimg,jdbcType=VARCHAR},
+        </if>
+        gprice = #{gprice,jdbcType=DECIMAL},
+        gstock = #{gstock,jdbcType=INTEGER},
+        maintainDate = #{maintaindate,jdbcType=TIMESTAMP},
+        classify = #{classify,jdbcType=VARCHAR},
+        gdescribe = #{gdescribe,jdbcType=LONGVARCHAR}
         where gid = #{gid,jdbcType=INTEGER}
     </update>
 

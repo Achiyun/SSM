@@ -15,6 +15,12 @@ public interface GoodsService {
     PageVo<Goods> selectGoodsByPageByParam(SearchVo searchVo, Integer page, Integer limit);
 
 
-    boolean deleteByPrimaryKey(Integer gid);
+    boolean deleteByGid(Integer gid);
+
+    boolean insert(Goods goods);
+
+    boolean updateByPrimaryKey(Goods record);
+
+
 
 }
