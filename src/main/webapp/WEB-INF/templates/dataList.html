@@ -100,24 +100,24 @@
         <!-- 分页 -->
         <nav class="row g-2" aria-label="Page navigation example">
             <ul class="pagination col-auto">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                <li th:class="|page-item ${pageVo.isFirstPage() ? 'disabled':''}|">
+                    <span class="page-link" onclick="previous()" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
-                    </a>
+                    </span>
                 </li>
                 <li th:each="pNum : ${ #numbers.sequence(1, pageVo.pages) }"
                     th:class="|page-item ${ pageVo.currentPage == pNum ? 'active':'' }|">
                     <span class="page-link" href="#" th:onclick="|submitSearch(${pNum})|" th:text="${pNum}"></span>
                 </li>
 
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                <li th:class="|page-item ${pageVo.isLastPage() ? 'disabled':''}|">
+                    <a class="page-link" onclick="next()" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
             </ul>
             <label class="col-auto" style="font-size: 25px;">
-                共5页 48条
+                共[[${pageVo.pages}]]页 [[${pageVo.total}]]条
             </label>
         </nav>
     </div>
@@ -190,8 +190,26 @@
 </div>
 <script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>
 <script src="static/js/jquery-1.12.4.min.js"></script>
-<script>
+<script th:inline="javascript">
 
+    // 下一页
+    function previous() {
+        // 获取当前页数减一
+        let currentPage = [[${pageVo.currentPage}]]
+        if (currentPage > 1) {
+            submitSearch(currentPage - 1)
+        }
+    }
+
+    // 上一页
+    function next() {
+        // 获取当前页数减一
+        let currentPage = [[${pageVo.currentPage}]]
+        let pages = [[${pageVo.pages}]]
+        if (currentPage < pages) {
+            submitSearch(currentPage + 1)
+        }
+    }
 
     // 查询功能
     function submitSearch(page) {
