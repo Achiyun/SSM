@@ -35,7 +35,8 @@
             gdescribe    = #{gdescribe,jdbcType=LONGVARCHAR}
         where gid = #{gid,jdbcType=INTEGER}
     </update>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+    <sql id="selectHead">
         select gid,
                gname,
                gimg,
@@ -45,33 +46,20 @@
                classify,
                gdescribe
         from goods
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <include refid="selectHead"/>
         where gid = #{gid,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select gid,
-               gname,
-               gimg,
-               gprice,
-               gstock,
-               maintainDate,
-               classify,
-               gdescribe
-        from goods
+        <include refid="selectHead"/>
     </select>
 
     <select id="selectGoodsByPageByParam" parameterType="com.chiyu.ssm.vo.SearchVo" resultMap="BaseResultMap">
-        select gid,
-        gname,
-        gimg,
-        gprice,
-        gstock,
-        maintainDate,
-        classify,
-        gdescribe
-        from goods
+        <include refid="selectHead"/>
         <where>
-            <if test="gname != null and gname != ''">
-                gname like "%${gname}"
+            <if test="gname != null and gname != '' ">
+                gname like "%${gname}%"
             </if>
             <if test="gprice != null and gprice != ''">
                 AND gprice &lt; = #{gprice}

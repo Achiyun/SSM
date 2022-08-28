@@ -25,8 +25,8 @@ public class GoodsController {
                           @RequestParam(defaultValue = "5") Integer limit,
                           Model model) {
         // 去数据库查询数据
+        log.debug("我是searchVo-> {}", searchVo);
         PageVo<Goods> pageVo = goodsService.selectGoodsByPageByParam(searchVo, page, limit);
-        log.debug("page: {}" , pageVo);
         model.addAttribute("pageVo", pageVo);
 
         return "dataList";

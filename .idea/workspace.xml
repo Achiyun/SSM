@@ -10,9 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3732800-23d8-47a4-8a0d-e35db68c5de7" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataLis1t.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/vo/SearchVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/vo/SearchVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/controller/GoodsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/controller/GoodsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/chiyu/ssm/mapper/GoodsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/chiyu/ssm/mapper/GoodsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataLis1t.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/UserMapperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserMapperTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,7 +218,7 @@
       <workItem from="1661496735895" duration="11156000" />
       <workItem from="1661562131991" duration="1220000" />
       <workItem from="1661563360666" duration="11169000" />
-      <workItem from="1661660728422" duration="2399000" />
+      <workItem from="1661660728422" duration="5623000" />
     </task>
     <servers />
   </component>
