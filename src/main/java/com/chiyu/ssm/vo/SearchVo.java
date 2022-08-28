@@ -8,5 +8,5 @@ public class SearchVo {
     private Double gprice;
     private String maintainDate;
     private String classify;
-    private SearchVo searchVo;
+
 }

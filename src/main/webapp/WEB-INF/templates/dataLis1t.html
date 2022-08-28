@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- 必须的 meta 标签 -->
     <meta charset="utf-8">
@@ -17,20 +17,20 @@
         <div>
             <form class="row g-2">
                 <div class="col-auto">
-                    <input type="text" placeholder="名称 | 模糊查找" class="form-control" id="gname">
+                    <input type="text" name="gname" placeholder="名称 | 模糊查找" class="form-control" id="gname">
                 </div>
                 <div class="col-auto">
-                    <input type="text" placeholder="单价 | 小于等于" class="form-control" id="gprice">
+                    <input type="text" name="gprice" placeholder="单价 | 小于等于" class="form-control" id="gprice">
                 </div>
                 <div class="col-auto d-flex align-items-center">
                     <label for="maintainDate" class="w-50" style="text-align: center;">保值日期</label>
-                    <input type="date" class="form-control" id="maintainDate">
+                    <input type="date" name="maintainDate" class="form-control" id="maintainDate">
                 </div>
                 <div class="col-auto">
-                    <input type="text" placeholder="分类 | 模糊查询" class="form-control" id="classify">
+                    <input type="text" name="classify" placeholder="分类 | 模糊查询" class="form-control" id="classify">
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" onclick="submitSearch()" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                         查询
                     </button>
@@ -67,7 +67,7 @@
             </tr>
             </thead>
             <tbody id="tataBody">
-            <tr  th:each="goods:${pageVo.dataList}">
+            <tr th:each="goods:${pageVo.dataList}">
                 <td><input type="checkbox"></td>
                 <td th:text="${goods.gid}"></td>
                 <td th:text="${goods.gname}"></td>
@@ -93,6 +93,7 @@
             </tr>
             </tbody>
         </table>
+
         <!-- 分页 -->
         <nav class="row g-2" aria-label="Page navigation example">
             <ul class="pagination col-auto">
@@ -101,9 +102,9 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li th:each="pNum : ${#numbers.sequence(1,pageVo.pages)}" class="page-item">
+                    <span class="page-link" th:onclick="|clickPage(${pNum})|" th:text="${pNum}"></span>
+                </li>
                 <li class="page-item">
                     <a class="page-link" href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -111,11 +112,10 @@
                 </li>
             </ul>
             <label class="col-auto" style="font-size: 25px;">
-                共5页 48条
+                共[[${pageVo.pages}]]页 48条
             </label>
         </nav>
     </div>
-
     <!--添加信息的模态窗口
         手动关闭模态框的代码：
         var myModalEl = document.getElementById('myModal')
@@ -183,6 +183,46 @@
     </div>
 </div>
 <script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
 
+    // 上一页
+    function previous() {
+        // 获取当前页数减1
+        let currentPage = "[[${pageVo.currentPage]]"
+        if (currentPage > 1) {
+            submitSearch(currentPage - 1)
+        }
+    }
+
+    // 下一页
+    function next() {
+
+        // 清空表单
+        function clearData() {
+            location.href = "dataList.html"
+        }
+
+        // 获取当前页数减1
+        let currentPage = "[[${pageVo.currentPage]]"
+        let pages = [[${pageVo.pages}]]
+        if (currentPage < pages) {
+            submitSearch(currentPage + 1)
+        }
+    }
+
+
+    // 查询功能和当前页点击功能
+    function submitSearch(page) {
+        // 获取表单数据, 并且要拼接为key value
+        let formData = $("form").serialize()
+        // 直接调用后端接口发送数据
+        location.href = "dataList.html?" + formData + "&page=" + page;
+    }
+
+    function clickPage() {
+        submitSearch()
+    }
+
+</script>
 </body>
 </html>
