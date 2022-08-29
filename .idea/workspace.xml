@@ -10,7 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3732800-23d8-47a4-8a0d-e35db68c5de7" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/config/WebInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/config/WebInit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/controller/GoodsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/controller/GoodsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataList.html" afterDir="false" />
     </list>
@@ -216,7 +215,7 @@
       <workItem from="1661562131991" duration="1220000" />
       <workItem from="1661563360666" duration="11169000" />
       <workItem from="1661660728422" duration="13661000" />
-      <workItem from="1661735138265" duration="3254000" />
+      <workItem from="1661735138265" duration="5685000" />
     </task>
     <servers />
   </component>
