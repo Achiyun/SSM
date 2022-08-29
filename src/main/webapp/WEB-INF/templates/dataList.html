@@ -236,7 +236,7 @@
         })
         gids = gids.substr(0, gids.length - 1)
         if (confirm("是否确定要删除id为" + gids + "的商品？")) {
-            $("#delForm").attr("action", "products/" + gid);
+            $("#delForm").attr("action", "products/" + gids);
             // 提交表单
             $("#delForm").submit();
         }
