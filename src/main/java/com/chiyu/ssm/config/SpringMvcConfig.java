@@ -1,5 +1,6 @@
 package com.chiyu.ssm.config;
 
+import com.chiyu.ssm.exception.GlobalExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -21,7 +23,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-@ComponentScan("com.chiyu.ssm.controller")
+@ComponentScan({"com.chiyu.ssm.controller","com.chiyu.ssm.exception"})
 @EnableAspectJAutoProxy
 // 开启mvc的注解驱动
 @EnableWebMvc
@@ -53,10 +55,10 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     // 配置文件上传
     @Bean
     public MultipartResolver multipartResolver() {
-    /**
-     * StandardServletMultipartResolver是基于servlet3.1原生上传组件封装的
-     * 上传参数需要在web.xml或WebInit中配置
-     */
+        /**
+         * StandardServletMultipartResolver是基于servlet3.1原生上传组件封装的
+         * 上传参数需要在web.xml或WebInit中配置
+         */
         return new StandardServletMultipartResolver();
     }
 
@@ -75,6 +77,18 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/index.html").setViewName("index");
 //        registry.addViewController("/dataList.html").setViewName("dataList");
     }
+
+    // 实现后系统默认不会创建任何异常处理解析器， 全部使用这里指定的异常处理器
+//    @Override
+//    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+//        WebMvcConfigurer.super.configureHandlerExceptionResolvers(resolvers);
+//    }
+
+    // 会保留系统默认不会创建任何异常处理解析器，全部使用这里指定的解析器
+//    @Override
+//    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+//        resolvers.add(0, new GlobalExceptionHandler());
+//    }
 
     /**
      * 模板解析器

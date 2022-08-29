@@ -44,7 +44,7 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
     // 配置文件上传的参数
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        // 临时文件的路径
+        // 临时文件的路径, 创建文件上传时， 如果超过了指定的缓存临界点, 就会使用这个文件夹来缓存数据，文件上传后会自动清空
         String location = "/home/chenchiyu/classRoom/Tianlai03/temp";
         File file = new File(location);
         if (!file.exists() && !file.isDirectory()) {
