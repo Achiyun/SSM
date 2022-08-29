@@ -37,7 +37,6 @@ public class GoodsController {
                           Model model) {
         // 去数据库查询数据
         PageVo<Goods> pageVo = goodsService.selectGoodsByPageByParam(searchVo, page, limit);
-        log.debug("我是searchVo-> {}", pageVo.getPages());
 
         model.addAttribute("pageVo", pageVo);
 
@@ -81,7 +80,7 @@ public class GoodsController {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDispositionFormData("attachment", fileName);
         // 直接将准备好的数据封装为一个响应对象
-        return new ResponseEntity<>(buff, status);
+        return new ResponseEntity<>(buff, headers, status);
     }
 
 
@@ -108,7 +107,7 @@ public class GoodsController {
         gimg.transferTo(new File(saveFileDir, saveFileName));
 
         // 设置文件的保存路径到goods对象中
-        goods.setGimg("download" + gimg.getOriginalFilename());
+        goods.setGimg("download/" + saveFileName);
         boolean res = goodsService.insert(goods);
 
         return "redirect:/dataList.html";
@@ -116,7 +115,20 @@ public class GoodsController {
     }
 
     @PutMapping("/product")
-    public String updateGoods(Goods goods) {
+    public String updateGoods(Goods goods, @RequestPart("goodsImg") MultipartFile gimg) throws IOException {
+
+        File saveFileDir = new File(uploadFileDir);
+
+        if (!saveFileDir.exists()) {
+            boolean res = saveFileDir.mkdirs();
+        }
+        // 拼接路径
+        String saveFileName = UUID.randomUUID() + gimg.getOriginalFilename();
+        // 保存文件到本地
+        gimg.transferTo(new File(saveFileDir, saveFileName));
+
+        // 设置文件的保存路径到goods对象中
+        goods.setGimg("download/" + gimg.getOriginalFilename());
 
         boolean res = goodsService.updateByPrimaryKey(goods);
 
