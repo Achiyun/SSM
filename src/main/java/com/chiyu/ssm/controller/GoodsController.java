@@ -134,7 +134,7 @@ public class GoodsController {
     @DeleteMapping("/product/{gid}")
     public String delGoodsById(@PathVariable("gid") Integer gid, Model model) {
         String errInfo = "删除成功";
-        gid = 1024;
+
         if (!goodsService.deleteByGid(gid)) {
             errInfo = "删除失败";
             throw new GoodsException("没有找到要删除的商品");

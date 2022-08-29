@@ -1,6 +1,7 @@
 package com.chiyu.ssm.config;
 
 import com.chiyu.ssm.exception.GlobalExceptionHandler;
+import com.chiyu.ssm.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +12,7 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -23,11 +21,20 @@ import org.thymeleaf.templatemode.TemplateMode;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-@ComponentScan({"com.chiyu.ssm.controller","com.chiyu.ssm.exception"})
+@ComponentScan({"com.chiyu.ssm.controller", "com.chiyu.ssm.exception"})
 @EnableAspectJAutoProxy
 // 开启mvc的注解驱动
 @EnableWebMvc
 public class SpringMvcConfig implements WebMvcConfigurer {
+    // 配置spring拦截器
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginInterceptor())
+                // 要拦截的
+                .addPathPatterns("/**")
+                // 要放行的
+                .excludePathPatterns("/captcha", "/", "/login.html", "/login", "/static/**");
+    }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
@@ -51,6 +58,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         formatterRegistrar.registerFormatters(registry);
     }
 
+
     // 创建一个多部分解析器
     // 配置文件上传
     @Bean
@@ -62,10 +70,15 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
+//    @Override
+//    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+//        // 让所有的静态资源都由
+//        configurer.enable();
+//    }
+
     @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        // 放行静态资源
-        configurer.enable();
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
     @Override

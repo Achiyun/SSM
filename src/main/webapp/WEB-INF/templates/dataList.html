@@ -146,7 +146,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body mx-4">
-                    <form th:action="@{/product}" method="post" enctype="multipart/form-data" class="addForm row g-2" id="addForm">
+                    <form th:action="@{/product}" method="post" enctype="multipart/form-data" class="addForm row g-2"
+                          id="addForm">
                         <div class="col-auto">
                             <div style="width: 240px;">
                                 <input type="text" id="upGidT" name="gid" readonly class="form-control"/>
@@ -214,6 +215,15 @@
 <script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>
 <script src="static/js/jquery-1.12.4.min.js"></script>
 <script th:inline="javascript">
+    // 单个删除
+    function delGoods(gid) {
+        if (confirm("是否确定要删除id为" + gid + "的商品？")) {
+            // 获取表单dom元素
+            $("#delForm").attr("action", "product/" + gid);
+            // 提交表单
+            $("#delForm").submit();
+        }
+    }
 
     // 批量删除
     function delAll() {
@@ -286,17 +296,6 @@ name='gid' id='upGidT' readonly />`)
             }
         })
     })
-
-    // 删除功能
-    function delGoods(gid) {
-        if (confirm("是否确定要删除id为" + gid + "的商品？")) {
-            // 获取表单dom元素
-            $("#delForm").attr("action", "product/" + gid);
-            // 提交表单
-            $("#delForm").submit();
-        }
-
-    }
 
     function clearData() {
         location.href = "dataList.html"

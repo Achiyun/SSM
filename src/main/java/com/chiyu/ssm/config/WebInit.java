@@ -61,5 +61,7 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
         MultipartConfigElement multipartConfigElement =
                 new MultipartConfigElement(location, maxFileSize, maxRequestSize, fileSizeThreshold);
         registration.setMultipartConfig(multipartConfigElement);
+        // tomcat抛出异常时会被当成静态资源处理
+        registration.setInitParameter("throwExceptionIfNoHandlerFound","true");
     }
 }
