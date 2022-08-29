@@ -10,13 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3732800-23d8-47a4-8a0d-e35db68c5de7" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/config/SpringMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/config/SpringMvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/config/WebInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/config/WebInit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/controller/GoodsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/controller/GoodsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/entity/Goods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/entity/Goods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/mapper/GoodsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/mapper/GoodsMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/service/GoodsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/service/GoodsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/service/impl/GoodsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chiyu/ssm/service/impl/GoodsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/chiyu/ssm/mapper/GoodsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/chiyu/ssm/mapper/GoodsMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/dataList.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +65,7 @@
     "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "Console",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "spring.configuration.checksum": "a7885c51c567427cd74513f0c6e0d563"
   },
   "keyToStringList": {
@@ -221,6 +216,7 @@
       <workItem from="1661562131991" duration="1220000" />
       <workItem from="1661563360666" duration="11169000" />
       <workItem from="1661660728422" duration="13661000" />
+      <workItem from="1661735138265" duration="3254000" />
     </task>
     <servers />
   </component>

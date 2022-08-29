@@ -7,6 +7,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -45,6 +47,17 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         formatterRegistrar.setDateTimeFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         formatterRegistrar.registerFormatters(registry);
+    }
+
+    // 创建一个多部分解析器
+    // 配置文件上传
+    @Bean
+    public MultipartResolver multipartResolver() {
+    /**
+     * StandardServletMultipartResolver是基于servlet3.1原生上传组件封装的
+     * 上传参数需要在web.xml或WebInit中配置
+     */
+        return new StandardServletMultipartResolver();
     }
 
     @Override

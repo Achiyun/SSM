@@ -48,7 +48,7 @@
                 </div>
             </form>
             <div class="my-2">
-                <button class='btn btn-warning'>
+                <button class='btn btn-warning' onclick="delAll()">
                     <i class="bi bi-trash"></i>
                     批量删除
                 </button>
@@ -146,7 +146,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body mx-4">
-                    <form th:action="@{/product}" method="post" class="addForm row g-2" id="addForm">
+                    <form th:action="@{/product}" method="post" enctype="multipart/form-data" class="addForm row g-2" id="addForm">
                         <div class="col-auto">
                             <div style="width: 240px;">
                                 <input type="text" id="upGidT" name="gid" readonly class="form-control"/>
@@ -155,7 +155,8 @@
                         </div>
                         <div class="col-auto">
                             <div style="width: 240px;">
-                                <input type="text" id="upGname" name="gname" class="form-control" placeholder="请输入商品名称"
+                                <input type="text" id="upGname" name="gname" class="form-control"
+                                       placeholder="请输入商品名称"
                                        required/>
                             </div>
                         </div>
@@ -167,13 +168,15 @@
                         </div>
                         <div class="col-auto">
                             <div style="width: 240px;">
-                                <input type="number" id="upGprice" name="gprice" class="form-control" placeholder="商品单价"
+                                <input type="number" id="upGprice" name="gprice" class="form-control"
+                                       placeholder="商品单价"
                                        required/>
                             </div>
                         </div>
                         <div class="col-auto">
                             <div style="width: 240px;">
-                                <input type="number" id="upGstock" name="gstock" class="form-control" placeholder="库存" required/>
+                                <input type="number" id="upGstock" name="gstock" class="form-control" placeholder="库存"
+                                       required/>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -194,7 +197,8 @@
                             </div>
                         </div>
                         <div class="">
-                            <textarea class="form-control" id="upGdescribe" name="gdescribe" placeholder="商品描述"></textarea>
+                            <textarea class="form-control" id="upGdescribe" name="gdescribe"
+                                      placeholder="商品描述"></textarea>
                         </div>
                     </form>
                 </div>
@@ -210,6 +214,25 @@
 <script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>
 <script src="static/js/jquery-1.12.4.min.js"></script>
 <script th:inline="javascript">
+
+    // 批量删除
+    function delAll() {
+        let gidEle = $("#tataBody input:checked").parent().next()
+        // 准备一个参数拼接
+        let gids = '';
+        gidEle.each(function (i, e) {
+            let gid = $(e).text()
+            gids += gid + ','
+        })
+        gids = gids.substr(0, gids.length - 1)
+        if (confirm("是否确定要删除id为" + gids + "的商品？")) {
+            $("#delForm").attr("action", "product/" + gid);
+            // 提交表单
+            $("#delForm").submit();
+        }
+
+    }
+
 
     // 默认执行的功能
     $(function () {
@@ -266,11 +289,12 @@ name='gid' id='upGidT' readonly />`)
 
     // 删除功能
     function delGoods(gid) {
-        if (confirm("是否确定要删除id为" + gid + "的商品？"))
+        if (confirm("是否确定要删除id为" + gid + "的商品？")) {
             // 获取表单dom元素
             $("#delForm").attr("action", "product/" + gid);
-        // 提交表单
-        $("#delForm").submit();
+            // 提交表单
+            $("#delForm").submit();
+        }
 
     }
 

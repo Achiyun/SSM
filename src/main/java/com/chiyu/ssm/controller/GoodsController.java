@@ -38,7 +38,8 @@ public class GoodsController {
         return "redirect:/dataList.html";
 
     }
-    @PutMapping ("/product")
+
+    @PutMapping("/product")
     public String updateGoods(Goods goods) {
 
         boolean res = goodsService.updateByPrimaryKey(goods);
@@ -48,10 +49,13 @@ public class GoodsController {
     }
 
     @DeleteMapping("/product/{gid}")
-    public String delGoodsById(@PathVariable Integer gid, Model model) {
+    public String delGoodsById(@PathVariable("gids") Integer[] gids, Model model) {
         String errInfo = "删除成功";
-        if (!goodsService.deleteByGid(gid)) {
-            errInfo = "删除失败";
+        for (Integer gid : gids) {
+            boolean res = goodsService.deleteByGid(gid);
+            if (!res) {
+                errInfo = "删除失败";
+            }
         }
         model.addAttribute("errInfo", errInfo);
 //        return "forward:/dataList.html"; //请求转发
